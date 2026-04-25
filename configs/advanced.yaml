@@ -1,0 +1,41 @@
+# configs/advanced.yaml
+target:
+  url: "https://target.example.com"
+  host: "target.example.com:443"
+  hostname: "target.example.com"
+  port: 443
+  ssl: true
+
+attack:
+  threads: 500
+  duration: 120
+  rate_per_thread: 25
+
+client:
+  timeout: 30
+  keep_alive: true
+  max_retries: 5
+  retry_delay: 0
+
+proxy:
+  enabled: true
+  url: "socks5://127.0.0.1:9050"
+  type: "socks5"
+  pool:
+    - "socks5://127.0.0.1:9050"
+    - "socks5://127.0.0.1:9051"
+    - "http://127.0.0.1:8080"
+  rotate: true
+
+headers:
+  random_user_agents: true
+  random_headers: true
+  custom_headers:
+    X-Custom-Blood: "true"
+    Cache-Control: "no-store"
+  referer_spam: true
+
+bypass:
+  use_http2: true
+  fragment_packets: true
+  pipeline_requests: 10
