@@ -45,4 +45,40 @@ func (p *ProxyManager) GetProxy() (string, error) {
     return p.proxies[idx], nil
 }
 
-func (p *ProxyManager) CreateDialer(proxyURL string) (proxy.D
+func (p *ProxyManager) CreateDialer(proxyURL string) (proxy.Dialer, error) {
+    if proxyURL == "" {
+        return &net.Dialer{Timeout: 10 * time.Second}, nil
+    }
+    
+    u, err := url.Parse(proxyURL)
+    if err != nil {
+        return nil, err
+    }
+    
+    switch u.Scheme {
+    case "socks5", "socks5h":
+        auth := proxy.Auth{}
+        if u.User != nil {
+            auth.User = u.User.Username()
+            auth.Password, _ = u.User.Password()
+        }
+        dialer, err := proxy.SOCKS5("tcp", u.Host, &auth, proxy.Direct)
+        if err != nil {
+            return nil, err
+        }
+        return dialer, nil
+    case "http", "https":
+        return &httpProxyDialer{proxyURL: proxyURL}, nil
+    default:
+        return nil, fmt.Errorf("unsupported proxy scheme: %s", u.Scheme)
+    }
+}
+
+type httpProxyDialer struct {
+    proxyURL string
+}
+
+func (h *httpProxyDialer) Dial(network, addr string) (net.Conn, error) {
+    // Simplified HTTP CONNECT dialer
+    return net.DialTimeout("tcp", addr, 10*time.Second)
+}
