@@ -1,0 +1,36 @@
+# configs/default.yaml
+target:
+  url: "http://localhost:8080"
+  host: "localhost:8080"
+  hostname: "localhost"
+  port: 8080
+  ssl: false
+
+attack:
+  threads: 100
+  duration: 30
+  rate_per_thread: 10
+
+client:
+  timeout: 10
+  keep_alive: true
+  max_retries: 2
+  retry_delay: 1
+
+proxy:
+  enabled: false
+  url: ""
+  type: "http"
+  pool: []
+  rotate: false
+
+headers:
+  random_user_agents: true
+  random_headers: true
+  custom_headers: {}
+  referer_spam: true
+
+bypass:
+  use_http2: false
+  fragment_packets: false
+  pipeline_requests: 5
