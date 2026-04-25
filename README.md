@@ -17,8 +17,8 @@ Advanced Layer7 (HTTP/HTTPS) stress testing tool for authorized security assessm
 ## Installation
 
 ```bash
-git clone https://github.com/stresstest/layer7-flood
-cd layer7-flood
+git clone https://github.com/blaxkmiradev/stress-tool.git
+cd stress-tool
 make deps
 make build
 ```
